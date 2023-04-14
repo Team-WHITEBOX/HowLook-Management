@@ -1,5 +1,6 @@
 package org.whitebox.howlook.management.domain.report.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,10 @@ public class ReportController {
 
     private final ReportPostService reportPostService;
 
+    @ApiOperation(value="report 시 postId를 포함해주세요.")
     @PostMapping(value = "/reportPost")
-    public ResponseEntity<ResultCode> reportPosts() {
-        reportPostService.report();
+    public ResponseEntity<ResultCode> reportPosts(Long postId) {
+        reportPostService.report(postId);
 
         return ResponseEntity.ok(ResultCode.CREATE_POST_SUCCESS);
     }

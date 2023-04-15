@@ -1,26 +1,20 @@
-package org.whitebox.howlook.management.domain.report.entity;
+package org.whitebox.howlook.management.domain.report.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.whitebox.howlook.management.domain.report.dto.ReportDTO;
+import org.whitebox.howlook.management.domain.report.entity.Hashtag;
+import org.whitebox.howlook.management.domain.report.entity.Photo;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-@Entity
+@Data
+@Builder
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@DynamicInsert
-public class Report {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+@AllArgsConstructor
+public class ReportDTO {
 
     private Long postId;
 
@@ -39,7 +33,6 @@ public class Report {
     // postId를 통해 사진을 가져오는 get Method가 구현되어서 엔티티 구조 변경
     private String mainPhotoPath; //사진 경로
 
-    @OneToMany(mappedBy = "postId")
     //수정필요
     private List<Photo> PhotoDTOs = new ArrayList<>();
 
@@ -47,10 +40,5 @@ public class Report {
 
     private LocalDateTime modificationDate;
 
-    @OneToOne
     private Hashtag hashtag;
-
-    public void setHashtag(ReportDTO reportDTO) {this.hashtag = reportDTO.getHashtag();}
-
-    public void setPhoto(ReportDTO reportDTO) {this.PhotoDTOs = reportDTO.getPhotoDTOs();}
 }

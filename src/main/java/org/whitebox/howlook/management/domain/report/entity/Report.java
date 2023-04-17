@@ -24,7 +24,7 @@ public class Report {
 
     private Long postId;
 
-    private String member;      //원래 Member member이나 이름만 넘어오면되니 String으로 설정
+    private String memberId;      //원래 Member member이나 이름만 넘어오면되니 String으로 설정
 
     private Long photoCount;      //업로드한 사진 개수
 
@@ -49,8 +49,4 @@ public class Report {
 
     @OneToOne
     private Hashtag hashtag;
-
-    public void setHashtag(ReportDTO reportDTO) {this.hashtag = reportDTO.getHashtag();}
-
-    public void setPhoto(ReportDTO reportDTO) {this.PhotoDTOs = reportDTO.getPhotoDTOs();}
 }

@@ -1,24 +1,22 @@
 package org.whitebox.howlook.management.domain.report.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
-import org.whitebox.howlook.management.domain.report.entity.Hashtag;
+import org.springframework.stereotype.Component;
 import org.whitebox.howlook.management.domain.report.entity.Photo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-@Data
-@Builder
+
 @Getter
 @Setter
+@Component
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReportDTO {
 
     private Long postId;
 
-    private String member;      //원래 Member member이나 이름만 넘어오면되니 String으로 설정
+    private String memberId;      //원래 Member member이나 이름만 넘어오면되니 String으로 설정
 
     private Long photoCount;      //업로드한 사진 개수
 
@@ -34,11 +32,11 @@ public class ReportDTO {
     private String mainPhotoPath; //사진 경로
 
     //수정필요
-    private List<Photo> PhotoDTOs = new ArrayList<>();
+    private List<PhotoDTO> PhotoDTOs = new ArrayList<>();
 
     private LocalDateTime registrationDate;
 
     private LocalDateTime modificationDate;
 
-    private Hashtag hashtag;
+    private HashtagDTO hashtagDTO;
 }

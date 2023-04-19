@@ -17,7 +17,7 @@ import java.util.List;
 @DynamicInsert
 public class Post {
     @Id
-    private Long postId;       //게시글 id
+    private Long postId;
 
     private String memberId;      //원래 Member member이나 이름만 넘어오면되니 String으로 설정
 
@@ -41,9 +41,13 @@ public class Post {
     @OneToMany(mappedBy = "postId")
     private List<Photo> uploads = new ArrayList<>();
 
-    private float latitude; // 위도
-    private float longitude; // 경도
+    //private float latitude; // 위도 ->원래 post에는 있긴 한데, postReaderDTO에는 없는 정보라 일단 뺌
+    //private float longitude; // 경도
 
     @OneToOne
     private Hashtag hashtag;
+
+    public void setHashtag(Hashtag hashtag){
+        this.hashtag = hashtag;
+    }
 }

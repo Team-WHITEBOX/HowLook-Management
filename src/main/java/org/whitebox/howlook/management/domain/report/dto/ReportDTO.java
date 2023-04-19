@@ -2,7 +2,6 @@ package org.whitebox.howlook.management.domain.report.dto;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
-import org.whitebox.howlook.management.domain.report.entity.Photo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

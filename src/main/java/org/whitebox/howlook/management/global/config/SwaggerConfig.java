@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("org.whitebox.howlook.management"))
                 .paths(PathSelectors.any()).build()
                 //.securitySchemes(List.of(apiKey()))
-                .securityContexts(List.of(securityContext()))
+                //.securityContexts(List.of(securityContext()))
                 .apiInfo(apiInfo());
     }
 
@@ -38,11 +38,9 @@ public class SwaggerConfig {
         return new ApiInfoBuilder().title("How Look Management Swagger").build();
     }
 
-    /*
     private ApiKey apiKey() {
         return new ApiKey("Authorization", "Authorization", "header");
     }
-    */
 
     private SecurityContext securityContext() {  // '/api/'경로에 대해 토큰필요
         return SecurityContext.builder().securityReferences(defaultAuth()).build();

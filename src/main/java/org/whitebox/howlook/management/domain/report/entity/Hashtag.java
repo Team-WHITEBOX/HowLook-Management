@@ -42,5 +42,4 @@ public class Hashtag {
     @Column(nullable = false)
     @ColumnDefault("false")
     private Boolean guitar;     //EATER EGG
-
 }

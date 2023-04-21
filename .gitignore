@@ -18,6 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+application-private.properties
 .idea
 *.iws
 *.iml
@@ -37,4 +38,3 @@ out/
 .vscode/
 
 ### properties information ###
-application.properties

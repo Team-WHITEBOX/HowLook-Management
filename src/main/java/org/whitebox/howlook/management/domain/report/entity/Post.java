@@ -2,7 +2,6 @@ package org.whitebox.howlook.management.domain.report.entity;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-import org.whitebox.howlook.management.domain.report.dto.PhotoDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;

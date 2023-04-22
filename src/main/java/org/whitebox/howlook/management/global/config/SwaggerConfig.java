@@ -28,8 +28,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30).useDefaultResponseMessages(false).select()
                 .apis(RequestHandlerSelectors.basePackage("org.whitebox.howlook.management"))
                 .paths(PathSelectors.any()).build()
-                //.securitySchemes(List.of(apiKey()))
-                //.securityContexts(List.of(securityContext()))
+                .securitySchemes(List.of(apiKey()))
+                .securityContexts(List.of(securityContext()))
                 .apiInfo(apiInfo());
     }
 

@@ -1,23 +1,17 @@
 package org.whitebox.howlook.management.domain.report.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.whitebox.howlook.management.domain.report.dto.HashtagDTO;
-import org.whitebox.howlook.management.domain.report.dto.LoginDTO;
 import org.whitebox.howlook.management.domain.report.dto.PhotoDTO;
 import org.whitebox.howlook.management.domain.report.dto.ReportDTO;
 import org.whitebox.howlook.management.domain.report.entity.*;
@@ -45,8 +39,6 @@ public class ReportPostServiceImpl implements ReportPostService{
         ReportCount reportCount = reportCountRepository.findByPostId(reportDTO.getPostId());
         if(reportCount != null) {
             reportCount.reportCountUp();
-            //Long count = reportCount.getReportCount();
-            //reportCount.setReportCount(++count);
         }else {
             reportCount = modelMapper.map(reportDTO, ReportCount.class);
             reportCount.setReportCount(1L);
@@ -75,11 +67,11 @@ public class ReportPostServiceImpl implements ReportPostService{
         postRepository.save(post);
     }
 
-    public ResponseEntity<String> deletePost(Long postId, String accessToken) throws JsonProcessingException {
+    public ResponseEntity<String> deletePost(Long postId, String accessToken) {
         //String accessToken =
 
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://192.168.0.2:9090")
+                .baseUrl("http://localhost:9090")
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .build();
 

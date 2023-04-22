@@ -19,6 +19,7 @@ import org.whitebox.howlook.management.domain.report.dto.RTestDTO;
 import org.whitebox.howlook.management.domain.report.dto.ReportDTO;
 import org.whitebox.howlook.management.domain.report.entity.RTest;
 import org.whitebox.howlook.management.domain.report.repository.RTestRepository;
+import org.whitebox.howlook.management.domain.report.service.LoginService;
 import org.whitebox.howlook.management.domain.report.service.ReportPostService;
 import org.whitebox.howlook.management.global.result.ResultCode;
 import reactor.core.publisher.Mono;
@@ -31,38 +32,15 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class ReportController {
-
     private final ReportPostService reportPostService;
     private final RTestRepository rTestRepository;
-    private String token;
+    private final LoginService loginSevie;
+    //private String token;
 
     @ApiOperation(value="login")
     @GetMapping("/login")
-    public ResponseEntity<String> getAccessToken(String ID, String PW) throws JsonProcessingException {
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setMemberId(ID);
-        loginDTO.setMemberPassword(PW);
-
-        WebClient webClient = WebClient.builder()
-                .baseUrl("http://192.168.0.2:9090")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
-
-        //tokenBody에 token을 받아옴
-        ResponseEntity<String> tokenBody =
-                webClient.post().uri(uriBuilder -> uriBuilder.path("/account/generateToken")
-                                .build())
-                                .bodyValue(loginDTO)
-                                .retrieve()
-                                .toEntity(String.class)
-                                .block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(tokenBody.getBody());
-
-        //toeknBody에 받아온 accessToken과 refreshToken중 accessToken을 parse
-        token = jsonNode.get("accessToken").asText();
-
-        return tokenBody;
+    public ResponseEntity<String> getAccessToken(String ID, String PW){
+        return loginSevie.loginThatServer(ID, PW);
     }
 
     //ReportDTO받는 controller
@@ -75,8 +53,17 @@ public class ReportController {
 
     //Post지우는 Controller
     @PostMapping("/deletePost")
-    public ResponseEntity<ResultCode> deletePost(Long postId) throws JsonProcessingException {
-        System.out.println(reportPostService.deletePost(postId, token).getBody());
+    public ResponseEntity<ResultCode> deletePost(Long postId, String accessToken) throws JsonProcessingException {
+        System.out.println(reportPostService.deletePost(postId, accessToken).getBody());
+
+        return ResponseEntity.ok(ResultCode.REPORT_POST_SUCCESS);
+    }
+
+    @GetMapping("/getReport")
+    public ResponseEntity<ResultCode> getReport() {
+        //report정보 반환 시 고려사항
+        //1. POST정보를 pagination - PHOTO, HASHTAG포함
+        //2. 1.을 포함한 Report와 ReportCount정보 함께 넣어서 하나의 DTO로 반환.
 
         return ResponseEntity.ok(ResultCode.REPORT_POST_SUCCESS);
     }

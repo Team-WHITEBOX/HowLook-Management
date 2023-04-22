@@ -44,8 +44,9 @@ public class ReportPostServiceImpl implements ReportPostService{
 
         ReportCount reportCount = reportCountRepository.findByPostId(reportDTO.getPostId());
         if(reportCount != null) {
-            Long count = reportCount.getReportCount();
-            reportCount.setReportCount(++count);
+            reportCount.reportCountUp();
+            //Long count = reportCount.getReportCount();
+            //reportCount.setReportCount(++count);
         }else {
             reportCount = modelMapper.map(reportDTO, ReportCount.class);
             reportCount.setReportCount(1L);

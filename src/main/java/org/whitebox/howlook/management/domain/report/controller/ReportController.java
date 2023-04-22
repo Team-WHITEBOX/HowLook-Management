@@ -48,6 +48,7 @@ public class ReportController {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
+        //tokenBody에 token을 받아옴
         ResponseEntity<String> tokenBody =
                 webClient.post().uri(uriBuilder -> uriBuilder.path("/account/generateToken")
                                 .build())
@@ -58,11 +59,11 @@ public class ReportController {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(tokenBody.getBody());
 
+        //toeknBody에 받아온 accessToken과 refreshToken중 accessToken을 parse
         token = jsonNode.get("accessToken").asText();
 
         return tokenBody;
     }
-
 
     //ReportDTO받는 controller
     @PostMapping(value = "/reportPost", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,6 +73,7 @@ public class ReportController {
         return ResponseEntity.ok(ResultCode.REPORT_POST_SUCCESS);
     }
 
+    //Post지우는 Controller
     @PostMapping("/deletePost")
     public ResponseEntity<ResultCode> deletePost(Long postId) throws JsonProcessingException {
         System.out.println(reportPostService.deletePost(postId, token).getBody());

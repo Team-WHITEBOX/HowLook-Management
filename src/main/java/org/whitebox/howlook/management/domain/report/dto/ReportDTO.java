@@ -38,4 +38,6 @@ public class ReportDTO {
     private LocalDateTime modificationDate;
 
     private HashtagDTO hashtagDTO;
+
+    private String reporterId;
 }

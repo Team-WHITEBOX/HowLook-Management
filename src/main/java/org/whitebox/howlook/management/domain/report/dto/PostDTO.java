@@ -33,8 +33,8 @@ public class PostDTO {
     //수정필요
     private List<PhotoDTO> uploads = new ArrayList<>();
 
-    private float latitude; // 위도
-    private float longitude; // 경도
+    //private float latitude; // 위도
+    //private float longitude; // 경도
 
     private LocalDateTime registrationDate;
     private LocalDateTime modificationDate;

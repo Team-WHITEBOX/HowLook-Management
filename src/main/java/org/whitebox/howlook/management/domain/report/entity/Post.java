@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,10 @@ public class Post {
 
     //private float latitude; // 위도 ->원래 post에는 있긴 한데, postReaderDTO에는 없는 정보라 일단 뺌
     //private float longitude; // 경도
+
+    private LocalDateTime registrationDate;
+    private LocalDateTime modificationDate;
+
 
     @OneToOne
     private Hashtag hashtag;

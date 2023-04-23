@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.whitebox.howlook.management.domain.report.dto.HashtagDTO;
 import org.whitebox.howlook.management.domain.report.dto.PhotoDTO;
 import org.whitebox.howlook.management.domain.report.dto.ReportDTO;
+import org.whitebox.howlook.management.domain.report.dto.ReportReaderDTO;
 import org.whitebox.howlook.management.domain.report.entity.*;
 import org.whitebox.howlook.management.domain.report.repository.*;
-
-import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -45,9 +47,11 @@ public class ReportPostServiceImpl implements ReportPostService{
         }
         reportCountRepository.save(reportCount);
         Report report = modelMapper.map(reportDTO, Report.class);
-        reportRepository.save(report);
 
-        if(postRepository.findPostIdByReportPostId(reportDTO.getPostId()) != null) return;
+        if(postRepository.findPostIdByReportPostId(reportDTO.getPostId()) != null) {
+            reportRepository.save(report);
+            return;
+        }
 
         Post post = modelMapper.map(reportDTO, Post.class);
 
@@ -63,13 +67,13 @@ public class ReportPostServiceImpl implements ReportPostService{
         }
 
         hashtagRepository.save(hashtag);
-
         postRepository.save(post);
+
+        report.setPost(post);
+        reportRepository.save(report);
     }
 
     public ResponseEntity<String> deletePost(Long postId, String accessToken) {
-        //String accessToken =
-
         WebClient webClient = WebClient.builder()
                 .baseUrl("http://localhost:9090")
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -81,5 +85,10 @@ public class ReportPostServiceImpl implements ReportPostService{
                 .retrieve()
                 .toEntity(String.class)
                 .block();
+    }
+
+    public Page<ReportReaderDTO> getReportPage(int size, int page) {
+        final Pageable pageable = PageRequest.of(page, size);
+        return reportRepository.findReportReaderDTOPage(pageable);
     }
 }

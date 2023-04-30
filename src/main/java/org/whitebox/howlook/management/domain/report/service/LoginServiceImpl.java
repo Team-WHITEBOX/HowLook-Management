@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import org.whitebox.howlook.management.domain.report.dto.LoginDTO;
 @Data
 @Service
 public class LoginServiceImpl implements LoginService{
+    @Value("${MAINSERVER_URL}")
+    private String mainServer;
 
     private String parseToken(ResponseEntity<String> tokenBody) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -35,7 +38,7 @@ public class LoginServiceImpl implements LoginService{
         loginDTO.setMemberPassword(PW);
 
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:9090")
+                .baseUrl("http://" + mainServer)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

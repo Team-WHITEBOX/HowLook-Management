@@ -38,7 +38,6 @@ public class ReportPostServiceImpl implements ReportPostService{
     @Value("${MAINSERVER_URL}")
     private String mainServer;
 
-
     public void reportPost(ReportDTO reportDTO) {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 

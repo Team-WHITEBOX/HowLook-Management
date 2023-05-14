@@ -20,7 +20,7 @@ public class Report {
 
     private String reporterId;      //신고한 유저 ID
 
-    //private Long postId;
+    private Long postId;
 
     @OneToOne
     private Post post;

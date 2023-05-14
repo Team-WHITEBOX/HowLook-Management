@@ -41,6 +41,7 @@ public class ReportPostServiceImpl implements ReportPostService{
     public void reportPost(ReportDTO reportDTO) {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
+        //postId의 신고회수 조회 및 count++
         ReportCount reportCount = reportCountRepository.findByPostId(reportDTO.getPostId());
         if(reportCount != null) {
             reportCount.reportCountUp();
@@ -73,6 +74,7 @@ public class ReportPostServiceImpl implements ReportPostService{
         postRepository.save(post);
 
         report.setPost(post);
+        report.setPostId(post.getPostId());
         reportRepository.save(report);
     }
 
@@ -81,6 +83,10 @@ public class ReportPostServiceImpl implements ReportPostService{
                 .baseUrl("http://"+ mainServer)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .build();
+
+
+        postRepository.deleteById(postId);
+        reportRepository.deleteReportByPostId(postId);
 
         return webClient.method(HttpMethod.DELETE)
                 .uri("/post/" + postId)

@@ -78,6 +78,7 @@ public class ReportPostServiceImpl implements ReportPostService{
         reportRepository.save(report);
     }
 
+    //신고내역 승낙, main server에 신고된 게시글 삭제요청 전송
     public ResponseEntity<String> deletePost(Long postId, String accessToken) {
         WebClient webClient = WebClient.builder()
                 .baseUrl("http://"+ mainServer)
@@ -94,6 +95,12 @@ public class ReportPostServiceImpl implements ReportPostService{
                 .retrieve()
                 .toEntity(String.class)
                 .block();
+    }
+
+    //신고내역 거부, 해당 서버에서 저장된 신고내역만 삭제
+    public void rejectReport(Long postId) {
+        postRepository.deleteById(postId);
+        reportRepository.deleteReportByPostId(postId);
     }
 
     public Page<ReportReaderDTO> getReportPage(int size, int page) {

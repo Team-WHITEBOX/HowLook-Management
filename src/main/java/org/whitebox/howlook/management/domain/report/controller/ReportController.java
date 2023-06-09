@@ -54,11 +54,19 @@ public class ReportController {
     }
 
     //Post 지우는 Controller
-    @ApiOperation(value = "We need a PostId & accessToken to delete")
-    @DeleteMapping
+    @ApiOperation(value = "신고 수렴(게시글 삭제)")
+    @DeleteMapping("/accept")
     public ResponseEntity<ResultCode> deletePost(Long postId, String accessToken) throws JsonProcessingException {
         reportPostService.deletePost(postId, accessToken);
 
-        return ResponseEntity.ok(ResultCode.REPORT_POST_SUCCESS);
+        return ResponseEntity.ok(ResultCode.DELETE_REPORT_AND_POST_SUCCESS);
+    }
+
+    @ApiOperation(value = "신고 반려(신고내역만 삭제)")
+    @DeleteMapping("/reject")
+    public ResponseEntity<ResultCode> deletePost(Long postId) {
+        reportPostService.rejectReport(postId);
+
+        return ResponseEntity.ok(ResultCode.DELETE_REPORT_SUCCESS);
     }
 }

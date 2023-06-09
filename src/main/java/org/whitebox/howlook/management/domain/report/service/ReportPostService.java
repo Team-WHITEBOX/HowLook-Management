@@ -11,5 +11,7 @@ public interface ReportPostService {
 
     ResponseEntity<String> deletePost(Long postId, String accessToken) throws JsonProcessingException;
 
+    void rejectReport(Long postId);
+
     Page<ReportReaderDTO> getReportPage(int size, int page);
 }
